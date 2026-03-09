@@ -1,0 +1,125 @@
+body {
+    font-family: Arial;
+    background: #111;
+    color: white;
+}
+
+.container {
+    width: 800px;
+    margin: auto;
+    margin-top: 60px;
+}
+
+.box {
+    background: #1f1f1f;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.barra {
+    background: #333;
+    height: 25px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.barra span {
+    display: block;
+    height: 25px;
+    background: #00c853;
+    text-align: center;
+    line-height: 25px;
+}
+
+.participante {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.pago {
+    color: #00e676;
+    font-weight: bold;
+}
+
+.pendente {
+    color: #ff5252;
+    font-weight: bold;
+}
+
+button {
+    padding: 12px 20px;
+    background: #ff9800;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.status {
+    margin-top: 10px;
+}
+
+/* NAVBAR */
+
+.navbar {
+    width: 100%;
+    background: #1b1b1b;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    box-sizing: border-box;
+}
+
+/* LADO ESQUERDO */
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-left a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.nav-left a:hover {
+    color: #00e676;
+}
+
+/* LADO DIREITO */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right span {
+    margin-right: 15px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.nav-right a {
+    color: #ff5252;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-right a:hover {
+    color: #ff1744;
+}
