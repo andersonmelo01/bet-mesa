@@ -20,27 +20,46 @@ if (isset($_SESSION['usuario_id'])) {
 }
 ?>
 <style>
+    /* ==============================
+   NAVBAR RESPONSIVA
+============================== */
     .navbar-aposta {
         background: linear-gradient(90deg, #0f172a, #1e293b);
-        padding: 12px 0;
+        padding: 12px 15px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        font-style: italic;
+    }
+
+    .container-nav {
+        max-width: 1100px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        /* permite quebrar linha em mobile */
+        gap: 10px;
     }
 
     .logo {
         font-size: 20px;
         font-weight: bold;
         color: #22c55e;
+        font-style: italic;
     }
 
     .nav-area {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-style: italic;
     }
 
     .user {
         color: #fff;
         font-weight: 500;
+        font-style: italic;
     }
 
     .saldo {
@@ -49,15 +68,17 @@ if (isset($_SESSION['usuario_id'])) {
         padding: 6px 12px;
         border-radius: 8px;
         font-weight: bold;
+        font-style: italic;
     }
 
     .btn-aposta {
-        padding: 7px 14px;
+        padding: 6px 12px;
         border-radius: 6px;
         border: none;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: bold;
         cursor: pointer;
+        font-style: italic;
     }
 
     .btn-mesa {
@@ -79,13 +100,26 @@ if (isset($_SESSION['usuario_id'])) {
         opacity: 0.9;
     }
 
-    .container-nav {
-        max-width: 1100px;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+        .logo {
+            font-size: 18px;
+        }
+
+        .btn-aposta {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
+        .saldo {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
+        .nav-area {
+            justify-content: flex-start;
+            gap: 5px;
+        }
     }
 </style>
 

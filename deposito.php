@@ -28,11 +28,11 @@ if (!isset($_SESSION['usuario_id'])) {
 
             <div class="col-md-5">
 
-                <div class="card shadow">
+                <div class="card shadow-lg border-0">
 
                     <div class="card-header bg-dark text-white text-center">
 
-                        <h4 class="mb-0">💳 Depositar via PIX</h4>
+                        <h4 class="mb-0">💳 Depósito via PIX</h4>
 
                     </div>
 
@@ -59,7 +59,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
                             <div class="d-grid">
 
-                                <button class="btn btn-success btn-lg">
+                                <button type="submit" id="btnPix" class="btn btn-success btn-lg">
                                     Gerar PIX
                                 </button>
 
@@ -90,55 +90,106 @@ if (!isset($_SESSION['usuario_id'])) {
 
         let formData = new FormData(this);
 
+        document.getElementById("btnPix").innerHTML = "Gerando PIX...";
+        document.getElementById("btnPix").disabled = true;
+
         fetch("criar_pix.php", {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Erro HTTP: " + response.status);
+                }
+
+                return response.json();
+
+            })
             .then(data => {
+
+                document.getElementById("btnPix").innerHTML = "Gerar PIX";
+                document.getElementById("btnPix").disabled = false;
+
+                console.log(data); // debug
+
+                if (data.erro) {
+
+                    document.getElementById("areaPix").innerHTML = `
+            <div class="alert alert-danger mt-3">
+            ${data.erro}
+            </div>
+            `;
+
+                    return;
+                }
 
                 document.getElementById("areaPix").innerHTML = `
 
-                    <div class="mt-4">
+        <div class="mt-4">
 
-                    <h5 class="mb-3">Escaneie o QR Code</h5>
+        <h5 class="mb-3">Escaneie o QR Code</h5>
 
-                    <img src="${data.qrcode}" class="img-fluid mb-3 border rounded p-2" style="max-width:250px">
+        <img src="${data.imagem}" 
+        class="img-fluid mb-3 border rounded p-2" 
+        style="max-width:250px">
 
-                    <div class="input-group mb-3">
+        <div class="input-group mb-3">
 
-                    <input type="text" class="form-control" value="${data.pix_code}" id="codigoPix" readonly>
+        <input 
+        type="text" 
+        class="form-control" 
+        value="${data.codigo}" 
+        id="codigoPix" 
+        readonly>
 
-                    <button class="btn btn-outline-secondary" onclick="copiarPix()">
-                    Copiar
-                    </button>
+        <button 
+        class="btn btn-outline-secondary" 
+        onclick="copiarPix()">
+        Copiar
+        </button>
 
-                    </div>
+        </div>
 
-                    <div class="alert alert-warning">
-                    Aguardando pagamento...
-                    </div>
+        <div class="alert alert-warning">
 
-                    </div>
+        ⏳ Aguardando pagamento...
 
-                    `;
+        </div>
+
+        </div>
+
+        `;
+
+            })
+            .catch(error => {
+
+                document.getElementById("btnPix").innerHTML = "Gerar PIX";
+                document.getElementById("btnPix").disabled = false;
+
+                document.getElementById("areaPix").innerHTML = `
+        <div class="alert alert-danger mt-3">
+        Erro ao gerar PIX
+        </div>
+        `;
+
+                console.error(error);
 
             });
 
     });
 
+
     function copiarPix() {
 
-        let copyText = document.getElementById("codigoPix");
+        let codigo = document.getElementById("codigoPix");
 
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-
-        navigator.clipboard.writeText(copyText.value);
+        navigator.clipboard.writeText(codigo.value);
 
         alert("Código PIX copiado!");
 
     }
 </script>
+
 
 </html>

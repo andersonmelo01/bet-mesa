@@ -60,7 +60,7 @@ try {
     $stmt->execute([$usuario_id, $usuario_id]);
     $mesas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Erro ao carregar dashboard. Tente novamente mais tarde.");
+    die("Erro: " . $e->getMessage());
 }
 
 require 'header.php';
@@ -206,13 +206,35 @@ require 'header.php';
             color: #f1f5f9;
             border: none;
         }
+
+        body {
+            background: #0f172a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-style: italic;
+            /* <- DEIXA TODO O TEXTO EM CURSIVO */
+        }
+
+        .navbar-aposta .logo,
+        .navbar-aposta .nav-area .user,
+        .navbar-aposta .saldo,
+        .card-title,
+        .mesa-item,
+        .list-group-item-action,
+        .alert-light,
+        .badge {
+            font-style: italic;
+            /* Garantir que elementos específicos também fiquem cursivos */
+        }
     </style>
 </head>
 
 <body>
 
     <!-- HEADER -->
-   <!-- <nav class="navbar-aposta">
+    <!-- <nav class="navbar-aposta">
         <div class="logo">🎲 Plataforma de Mesas</div>
         <div class="nav-area">
             <a href="criar_mesa.php"><button class="btn-aposta btn-mesa">➕ Criar Mesa</button></a>
