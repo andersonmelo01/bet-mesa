@@ -24,9 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['nik'] = $user['nik'];
         $_SESSION['nome'] = $user['nome'];
 
-        /* =========================
-           VERIFICAR SE EXISTE CONVITE
-        ========================= */
+        /* VERIFICAR CONVITE */
 
         if (isset($_SESSION['convite_token'])) {
 
@@ -40,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: dashboard.php");
         exit;
     } else {
+
         $erro = "Usuário ou senha inválidos.";
     }
 }
@@ -53,38 +52,145 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Login - Plataforma de Apostas</title>
+    <title>Login - Plataforma de Mesas</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(120deg, #6a11cb, #2575fc);
             height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #020617);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* CARD */
+
         .card-login {
-            max-width: 400px;
-            margin: auto;
-            margin-top: 10%;
-            padding: 2rem;
-            border-radius: 1rem;
-            background: #ffffffcc;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+            width: 100%;
+            max-width: 420px;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+            color: #fff;
+
+        }
+
+        /* LOGO */
+
+        .logo {
+
+            text-align: center;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+
+            color: #22c55e;
+
+        }
+
+        /* TITULO */
+
+        .titulo {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+            font-weight: 600;
+
+        }
+
+        /* INPUT */
+
+        .form-control {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            color: #fff;
+
+        }
+
+        .form-control::placeholder {
+            color: #cbd5e1;
         }
 
         .form-control:focus {
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border-color: #22c55e;
+
             box-shadow: none;
-            border-color: #2575fc;
+
+            color: #fff;
+
         }
 
-        .btn-primary {
-            background: #2575fc;
+        label {
+            color: #cbd5e1;
+        }
+
+        /* BOTÃO */
+
+        .btn-login {
+
+            background: #22c55e;
+
             border: none;
+
+            font-weight: 600;
+
+            padding: 12px;
+
+            transition: 0.3s;
+
         }
 
-        .btn-primary:hover {
-            background: #6a11cb;
+        .btn-login:hover {
+
+            background: #16a34a;
+
+        }
+
+        /* LINK */
+
+        .link-cadastro {
+
+            color: #22c55e;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+        .link-cadastro:hover {
+            text-decoration: underline;
+        }
+
+        /* ALERT */
+
+        .alert {
+            font-size: 14px;
         }
     </style>
 
@@ -92,9 +198,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
-    <div class="card card-login">
+    <div class="card-login">
 
-        <h3 class="text-center mb-4">Entrar na Plataforma</h3>
+        <div class="logo">
+            🎲 Plataforma de Mesas
+        </div>
+
+        <h4 class="titulo">
+            Entrar na Plataforma
+        </h4>
 
         <?php if ($erro): ?>
 
@@ -108,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="mb-3">
 
-                <label class="form-label">Usuário ou Email</label>
+                <label>Usuário ou Email</label>
 
                 <input
                     type="text"
@@ -121,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="mb-3">
 
-                <label class="form-label">Senha</label>
+                <label>Senha</label>
 
                 <input
                     type="password"
@@ -132,9 +244,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             </div>
 
-            <div class="d-grid">
+            <div class="d-grid mt-4">
 
-                <button type="submit" class="btn btn-primary btn-lg">
+                <button type="submit" class="btn btn-login">
                     Entrar
                 </button>
 
@@ -142,8 +254,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         </form>
 
-        <p class="text-center mt-3">
-            Não tem conta? <a href="cadastro.php">Cadastre-se</a>
+        <p class="text-center mt-4">
+
+            Não tem conta?
+            <a href="cadastro.php" class="link-cadastro">Cadastre-se</a>
+
         </p>
 
     </div>

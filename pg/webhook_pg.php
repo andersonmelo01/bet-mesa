@@ -1,6 +1,6 @@
 <?php
 
-require 'conexao.php';
+require __DIR__ . '/../conexao.php';
 
 /* LOG DEBUG */
 

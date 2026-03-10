@@ -1,11 +1,12 @@
 <?php
 session_start();
-require 'conexao.php';
+require __DIR__ . '/../conexao.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit;
 }
+require __DIR__ . '/../header.php';
 ?>
 
 <!DOCTYPE html>

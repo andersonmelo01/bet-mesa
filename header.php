@@ -22,7 +22,7 @@ if (isset($_SESSION['usuario_id'])) {
 <style>
     /* ==============================
    NAVBAR RESPONSIVA
-============================== */
+    ============================== */
     .navbar-aposta {
         background: linear-gradient(90deg, #0f172a, #1e293b);
         padding: 12px 15px;
@@ -37,7 +37,6 @@ if (isset($_SESSION['usuario_id'])) {
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        /* permite quebrar linha em mobile */
         gap: 10px;
     }
 
@@ -79,6 +78,11 @@ if (isset($_SESSION['usuario_id'])) {
         font-weight: bold;
         cursor: pointer;
         font-style: italic;
+    }
+
+    .btn-dashboard {
+        background: #3b82f6;
+        color: #fff;
     }
 
     .btn-mesa {
@@ -133,6 +137,12 @@ if (isset($_SESSION['usuario_id'])) {
 
         <div class="nav-area">
 
+            <a href="/apostas/dashboard.php">
+                <button class="btn-aposta btn-dashboard">
+                    🏠 Dashboard
+                </button>
+            </a>
+
             <a href="criar_mesa.php">
                 <button class="btn-aposta btn-mesa">
                     ➕ Criar Mesa
@@ -147,7 +157,7 @@ if (isset($_SESSION['usuario_id'])) {
                 💰 R$ <?= number_format($saldo ?? 0, 2, ",", ".") ?>
             </div>
 
-            <a href="deposito.php">
+            <a href="pg/deposito.php">
                 <button class="btn-aposta btn-deposito">
                     💳 Depositar
                 </button>

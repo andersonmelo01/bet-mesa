@@ -56,7 +56,50 @@ if ($usuario_destino) {
     $stmt->execute([$mesa_id, $usuario_destino]);
 
     if ($stmt->fetch()) {
-        die("Usuário já está na mesa.");
+
+        $_SESSION['msg_erro'] = "⚠️ Este usuário já está participando da mesa.";
+
+        header("Location: mesa.php?id=" . $mesa_id);
+        exit;
+    }
+}
+
+/* ==============================
+   VERIFICAR SE JA EXISTE CONVITE
+============================== */
+
+if ($usuario_destino) {
+
+    $stmt = $pdo->prepare("
+    SELECT aceitou 
+    FROM convites
+    WHERE mesa_id=? AND usuario_id=?
+    ORDER BY id DESC
+    LIMIT 1
+    ");
+
+    $stmt->execute([$mesa_id, $usuario_destino]);
+    $convite = $stmt->fetch();
+
+    if ($convite) {
+
+        if ($convite['aceitou'] == 0) {
+
+            $_SESSION['msg_erro'] = "⚠️ Já existe um convite pendente para este jogador.";
+
+            header("Location: mesa.php?id=" . $mesa_id);
+            exit;
+        }
+
+        if ($convite['aceitou'] == 1) {
+
+            $_SESSION['msg_erro'] = "⚠️ Este jogador já aceitou o convite da mesa.";
+
+            header("Location: mesa.php?id=" . $mesa_id);
+            exit;
+        }
+
+        /* Se recusou (2) pode reenviar */
     }
 }
 
@@ -137,9 +180,13 @@ try {
     ";
 
     $mail->send();
+
+    /* MENSAGEM DE SUCESSO */
+
+    $_SESSION['msg_sucesso'] = "✅ Convite enviado com sucesso para <b>$email</b>.";
 } catch (Exception $e) {
 
-    echo "Erro ao enviar email: " . $mail->ErrorInfo;
+    $_SESSION['msg_erro'] = "❌ Erro ao enviar email: " . $mail->ErrorInfo;
 }
 
 /* ==============================

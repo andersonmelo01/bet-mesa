@@ -2,7 +2,7 @@
 
 session_start();
 
-require 'conexao.php';
+require __DIR__ . '/../conexao.php';
 
 header('Content-Type: application/json');
 
@@ -26,13 +26,13 @@ if ($total <= 0) {
 
 /* CREDENCIAIS EFI */
 
-$client_id = "Client_Id_5c2e079aae39b8aa8e22f43be5ea9e63db071bdf";
-$client_secret = "Client_Secret_b1eadf8ab23eab6c5a434d46928f9a50464f84c3";
+$client_id = "Client_Id_6515b26ca6ec3b145dd0cda9f2e168538f58c10e";
+$client_secret = "Client_Secret_ce20fae771ae056ff857a1989cfaa32b8bc21793";
 $pix_key = "23c3c302-52b9-4949-b31f-d372d1d41e8b";
 
 /* CERTIFICADO */
 
-$certificado = __DIR__ . "/homologacao-880829-bet.p12";
+$certificado = __DIR__ . "/../producao-880829-bet-prod.p12";
 $senha_certificado = "";
 
 /* GERAR TOKEN */
@@ -41,7 +41,7 @@ $curl = curl_init();
 
 curl_setopt_array($curl, [
 
-    CURLOPT_URL => "https://pix-h.api.efipay.com.br/oauth/token",
+    CURLOPT_URL => "https://pix.api.efipay.com.br/oauth/token",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
 
@@ -120,7 +120,7 @@ $curl = curl_init();
 
 curl_setopt_array($curl, [
 
-    CURLOPT_URL => "https://pix-h.api.efipay.com.br/v2/cob/" . $txid,
+    CURLOPT_URL => "https://pix.api.efipay.com.br/v2/cob/" . $txid,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_CUSTOMREQUEST => "PUT",
 
@@ -170,7 +170,7 @@ $curl = curl_init();
 
 curl_setopt_array($curl, [
 
-    CURLOPT_URL => "https://pix-h.api.efipay.com.br/v2/loc/" . $cob["loc"]["id"] . "/qrcode",
+    CURLOPT_URL => "https://pix.api.efipay.com.br/v2/loc/" . $cob["loc"]["id"] . "/qrcode",
     CURLOPT_RETURNTRANSFER => true,
 
     CURLOPT_SSLCERT => $certificado,

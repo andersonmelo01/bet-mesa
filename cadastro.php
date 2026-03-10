@@ -20,9 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $stmt->execute([$nome, $nik, $email, $senha]);
 
-        /* =========================
-           LOGIN AUTOMÁTICO
-        ========================= */
+        /* LOGIN AUTOMÁTICO */
 
         $usuario_id = $pdo->lastInsertId();
 
@@ -30,9 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['nik'] = $nik;
         $_SESSION['nome'] = $nome;
 
-        /* =========================
-           VERIFICAR CONVITE
-        ========================= */
+        /* VERIFICAR CONVITE */
 
         if (isset($_SESSION['convite_token'])) {
 
@@ -43,19 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        /* =========================
-           REDIRECIONAR NORMAL
-        ========================= */
-
         header("Location: dashboard.php");
         exit;
     } catch (PDOException $e) {
 
         if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-
             $erro = "Nik ou Email já cadastrado.";
         } else {
-
             $erro = "Erro ao cadastrar usuário.";
         }
     }
@@ -70,38 +60,143 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Cadastro - Plataforma de Apostas</title>
+    <title>Cadastro - Plataforma de Mesas</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(120deg, #6a11cb, #2575fc);
             height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #020617);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* CARD */
+
         .card-cadastro {
-            max-width: 450px;
-            margin: auto;
-            margin-top: 8%;
-            padding: 2rem;
-            border-radius: 1rem;
-            background: #ffffffcc;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+            width: 100%;
+            max-width: 420px;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+            color: #fff;
+
+        }
+
+        /* TITULO */
+
+        .titulo {
+
+            font-weight: 700;
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+        /* INPUT */
+
+        .form-control {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            color: #fff;
+
         }
 
         .form-control:focus {
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border-color: #22c55e;
+
             box-shadow: none;
-            border-color: #2575fc;
+
+            color: #fff;
+
         }
 
-        .btn-primary {
-            background: #2575fc;
+        label {
+            color: #cbd5e1;
+        }
+
+        /* BOTÃO */
+
+        .btn-cadastro {
+
+            background: #22c55e;
+
             border: none;
+
+            font-weight: 600;
+
+            padding: 12px;
+
+            transition: 0.3s;
+
         }
 
-        .btn-primary:hover {
-            background: #6a11cb;
+        .btn-cadastro:hover {
+
+            background: #16a34a;
+
+        }
+
+        /* LINK */
+
+        .link-login {
+
+            color: #22c55e;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+        .link-login:hover {
+
+            text-decoration: underline;
+
+        }
+
+        /* LOGO */
+
+        .logo {
+
+            text-align: center;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+
+            color: #22c55e;
+
+        }
+
+        /* ALERT */
+
+        .alert {
+            font-size: 14px;
         }
     </style>
 
@@ -109,9 +204,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
-    <div class="card card-cadastro">
+    <div class="card-cadastro">
 
-        <h3 class="text-center mb-4">Cadastro de Usuário</h3>
+        <div class="logo">
+            🎲 Plataforma de Mesas
+        </div>
+
+        <h4 class="titulo">Criar Conta</h4>
 
         <?php if ($erro): ?>
 
@@ -124,35 +223,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form method="POST">
 
             <div class="mb-3">
-                <label class="form-label">Nome</label>
+                <label>Nome</label>
                 <input type="text" name="nome" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Nik</label>
+                <label>Nik</label>
                 <input type="text" name="nik" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Email</label>
+                <label>Email</label>
                 <input type="email" name="email" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Senha</label>
+                <label>Senha</label>
                 <input type="password" name="senha" class="form-control" required>
             </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    Cadastrar
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-cadastro">
+                    Criar Conta
                 </button>
             </div>
 
         </form>
 
-        <p class="text-center mt-3">
-            Já tem conta? <a href="login.php">Entrar</a>
+        <p class="text-center mt-4">
+            Já possui conta?
+            <a href="login.php" class="link-login">Entrar</a>
         </p>
 
     </div>

@@ -42,7 +42,23 @@ CREATE TABLE IF NOT EXISTS usuarios (
     nik VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    nivel VARCHAR(20) NOT NULL DEFAULT 'comum'
+) ENGINE=InnoDB;
+");
+
+/* ==================================================
+   TABELA CARTEIRA
+================================================== */
+
+$pdo->exec("
+CREATE TABLE IF NOT EXISTS carteira (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    saldo DECIMAL(10,2) DEFAULT 0.00,
+    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 ");
 
@@ -55,7 +71,7 @@ CREATE TABLE IF NOT EXISTS mesas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     descricao TEXT,
-    valor_aposta DECIMAL(10,2) DEFAULT 0,
+    valor_aposta DECIMAL(10,2) DEFAULT 0.00,
     max_participantes INT DEFAULT 2,
     criador_id INT NOT NULL,
 
@@ -104,8 +120,8 @@ $pdo->exec("
 CREATE TABLE IF NOT EXISTS convites (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
-    mesa_id INT NOT NULL,
-    usuario_id INT NOT NULL,
+    mesa_id INT,
+    usuario_id INT,
 
     token VARCHAR(120) UNIQUE,
     aceitou TINYINT(1) DEFAULT 0,
@@ -113,6 +129,29 @@ CREATE TABLE IF NOT EXISTS convites (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+");
+
+/* ==================================================
+   TABELA TRANSACOES
+================================================== */
+
+$pdo->exec("
+CREATE TABLE IF NOT EXISTS transacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    usuario_id INT,
+    valor DECIMAL(10,2),
+
+    tipo ENUM('deposito','aposta','premio'),
+
+    status ENUM('pendente','pago','cancelado') DEFAULT 'pendente',
+
+    pagbank_id VARCHAR(200),
+
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 ");
@@ -128,15 +167,16 @@ $checkAdmin->execute([$adminNik]);
 
 if ($checkAdmin->rowCount() == 0) {
 
-    $senhaAdmin = password_hash('admin123', PASSWORD_DEFAULT);
+    $senhaAdmin = password_hash('123456', PASSWORD_DEFAULT);
 
     $pdo->prepare("
-    INSERT INTO usuarios (nome, nik, email, senha)
-    VALUES (?,?,?,?)
+    INSERT INTO usuarios (nome, nik, email, senha, nivel)
+    VALUES (?,?,?,?,?)
     ")->execute([
         'Administrador',
         'admin',
         'admin@teste.com',
-        $senhaAdmin
+        $senhaAdmin,
+        'mestre'
     ]);
 }
